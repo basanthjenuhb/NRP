@@ -18,10 +18,10 @@ def costFunction(x, y, W1, W2, b1, b2):
 x = [ [0,0],[0,1],[1,0],[1,1]]
 y = [ [a ^ b] for (a,b) in x ]
 # np.random.seed(10)
-x , y = np.array(x) , np.array(y)
-W1 , W2 = 2 * np.random.randn(4,2) - 1 , 2 * np.random.randn(1,4) - 1
-b1 , b2 = random.random() , random.random() 
-epochs , alpha , costs = 100000 , .1 , []
+x , y, h, r = np.array(x) , np.array(y), 4, 2
+W1 , W2 = r * np.random.randn(h,2) - r/2 , r * np.random.randn(1,h) - r/2
+b1 , b2 = r * np.random.randn(1,h) - r/2 , r * random.random() - r/2 
+epochs , alpha , costs = 100000 , .01 , []
 
 for i in range(epochs):
 	z1 , x1 , z2 , x2 , error , cost = costFunction(x, y, W1, W2, b1, b2)
@@ -36,7 +36,7 @@ for i in range(epochs):
 	dw1 = np.dot(delta1.T,x)
 
 	W1, W2 = W1 - alpha * dw1, W2 - alpha * dw2
-	b1 , b2 = b1 - alpha * sum(sum(delta1)), b2 - alpha * sum(delta2)
+	b1 , b2 = b1 - alpha * sum(delta1), b2 - alpha * sum(delta2)
 	# print b1,b2,"h"
 
 print "\nFinal Error:",cost
@@ -46,3 +46,4 @@ plt.plot([j for j in range(len(costs))],costs)
 plt.xlabel('Iterations -->')
 plt.ylabel('Error -->')
 plt.show()
+print W1,W2,b1,b2
